@@ -1,0 +1,4 @@
+colorama
+BeautifulSoup4
+pillow
+tqdm

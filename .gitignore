@@ -1,0 +1,11 @@
+# ignores pycache
+^__pycache__/
+
+# ignores TODO files
+TO-DO.md
+
+# mac files
+^%.DS_Store$
+
+# Vscode 
+.vscode/

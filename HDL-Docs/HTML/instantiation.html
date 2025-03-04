@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=" vhdl vhdl instantiation ">
+    <meta name="keyword" content="vhdl VHDL, vhdl instantiation">
+    <!-- styles -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- Prism for syntax highlighting -->
+    <link href="../styles/prism.css" rel="stylesheet">
+    <script src="../scripts/prism.js"></script>
+
+    <title>VHDL93 - Instantiation </title>
+</head>
+
+<body>
+    <h2 id="instantiation" class="definition">Instantiation</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        An <b>instantiation </b> is a <b>concurrent statement</b> defines a sub-component of the design entity. <br>
+        It is used to define the design hierarchy by making a copy
+        of a lower level design entity within an architecture. <br> <b>The instantiation statement introduces a
+            subsystem declared elsewhere.</b>
+        <br> In <b>VHDL'93</b> , a direct
+        instantiation of an entity bypasses the component and configuration.
+    </p>
+    The instantiation contains a reference to the instantiated unit and actual values for generics and ports. There are
+    three forms of instantiation:
+    <ul>
+        <li> <b>instantiation of a component</b> </li>
+        <li> <b>instantiation of a design entity</b> </li>
+        <li> <b>instantiation of a configuration</b> </li>
+    </ul>
+    <p class="big-line-height">
+       <b>Instantiation of a component introduces a relationship to a unit defined earlier as a component <a href="component.html"> (see Component).</a></b>
+       <br> The name of the instantiated component must match the name of the declared component. <br> <b>The instantiated component
+            is called with the actual parameters for generics and ports. The association list can be either positional or
+            named.</b>
+            <br>
+        <b> It is not necessary to define a component to instantiate it the entity/architecture pair can be instantiated
+            directly.</b> <br> In such a direct instantiation, the instantiation statement contains the design entity name and
+        optionally the name of the architecture to be used for this design entity.
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        instance_label: [ component ] component_name
+            [ generic map ] [ port map ];
+        instance_label: entity entity_name [ ( architecture_name ) ]
+            [ generic map ] [ port map ];
+        instance_label: configuration configuration_name
+            [ generic map ] [ port map ];
+        </code>
+    </pre>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        -- component instantiation
+        u1: Nand4 port map(A, B, Q);
+
+        -- entity instantiation
+        u2: entity Parity
+            generic map(N =&lt; 8)
+            port map(A =&lt; Data,
+                Odd =&lt; ParityByte);
+        </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>An entity, architecture or configuration must be compiled into a library before the corresponding instance can be compiled. <br> However, an instance of a component can be compiled before the corresponding design entity has even be written.</li>
+    </ul>
+</body>
+
+</html>

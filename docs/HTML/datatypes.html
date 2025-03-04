@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta name="description" content="vhdl data type">
+    <meta name="keywords" content=" vhdl bit, vhdl boolean, vhdl integer, vhdl floating point, vhdl physical, vhdl enmeration, vhdl array, vhdl record
+    , vhdl file, vhdl access">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css" type="text/css">
+    <title>VHDL93 - DataTypes</title>
+    <!-- Prism for syntax highlighting -->
+    <link rel="stylesheet" href="../styles/prism.css" type="text/css">
+    <script src="../scripts/prism.js"></script>
+</head>
+
+<body>
+    <h1>Data Types</h1>
+    <p>
+        A data type appears in a declaration to identify the type used at that point. There are four classes of types in
+        VHDL
+    </p>
+    <p>
+        <b id="Scalar">• Scalar types:</b><br>represent a single numeric value, or in the case of enumerated types, an
+        enumeration value.
+        The standard types that fall into this class are:
+    </p>
+    <ul>
+        <li><a href="#Bit">Bit</a></li>
+        <li><a href="#Boolean">Boolean</a></li>
+        <li><a href="#Integer">Integer</a></li>
+        <li><a href="#Floating">Floating Point</a></li>
+        <li><a href="#Physical">Physical</a></li>
+        <li><a href="#Enumeration">Enumeration</a></li>
+    </ul>
+    <p>
+        <b>• Composite types:</b><br>represent a collection of values.
+        The standard types that fall into this call are:
+    </p>
+    <ul>
+        <li><a href="compositetypes.html#Array">Array</a></li>
+        <li><a href="compositetypes.html#Record">Record</a></li>
+        <li><a href="compositetypes.html#Access">Access</a></li>
+        <li><a href="compositetypes.html#File">File</a></li>
+    </ul>
+    <!--
+        Bit Type
+    -->
+    <h2 id="Bit" class="definition">Bit Type</h2>
+    <h3 class="definition">Definition:</h3>
+    <p>
+        The bit data type is the most fundamental representation of a wire in VHDL.
+        the bit type has only two possible values. <b><i>'0'</i></b> and <b><i>'1'</i></b> that can used to represent
+        logical <b><i>0</i></b>
+        and <b><i>1</i></b>
+        values (respectively) in a digital system.
+    </p>
+    <br>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+           type activated : bit ;
+        </code></pre>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        The bit type is the basic type to represent logical values. Note that there are only two values defined for the
+        bit type and it is not possible to use it for high impedance and other non-trivial values such as Unknown,
+        Resistive Weak, etc. (see Std_logic).<br>
+
+        According to the type definition, its leftmost value is <b><i>'0'</i></b>, therefore the default value of any
+        object of the
+        bit type is <b><i>'0'</i></b>.
+
+        As the bit type is defined in the Standard package, it can be used in any VHDL specification without additional
+        declarations.<br>
+
+        Signals of the bit type are not resolved which means that such a signal can be assigned to an expression only
+        once in the entire architecture.
+    </p>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+           variable activated : bit := '1';
+           signal output : bit ;
+           constant pause : bit := '0';
+        </code> </pre>
+    <h3 class="definition">Notes</h3>
+    <ul class="notes">
+        <li>Logical values for object of the bit type MUST be written in quotes to distinguish them from Integer values.
+        </li>
+        <li>Unlike in traditional ("hand-based") digital design, logical values 0 and 1 (bit type values '0' and '1')
+            are NOT identical to boolean values (false and true), respectively.<br> In VHDL, the latter items form
+            completely different type (Boolean).</li>
+        <li>The bit data type supports the following operations: and, or, nand, nor, xor, xnor, not, =, /=, &lt;, &lt;=,
+            &gt;, and &gt;=</li>
+    </ul>
+    <!--
+        BOOLEAN
+    -->
+    <h2 id="Boolean" class="definition">Boolean Type</h2>
+    <h3 class="definition">Definition:</h3>
+    <p>
+        The Boolean type has two possible values, <b>true</b> and <b>false</b>.
+    </p>
+    <br>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+           type light_on : boolean ;
+        </code></pre>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        The boolean type is used for conditional operations. Boolean objects can be used with any of the relational
+        operators &lt;, &gt;, &lt;, &lt;=, = or /=.
+
+        According to the definition type, the leftmost value of the Boolean type is false,<br>therefore the default
+        value
+        of any object of the Boolean type is false.
+
+        Since the boolean type is defined in the Standard package, it can be used in any VHDL specification without
+        additional declarations.
+    </p>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        variable light_on : boolean := false;
+        variable is_greater_than : boolean := true;
+        </code> </pre>
+    <h3 class="definition">Notes</h3>
+    <ul class="notes">
+        <li>Unlike in traditional ("hand-based") digital design, boolean values (false and true) are NOT identical to
+            logical 0 and 1, respectively. In VHDL, the latter form is a completely different type and is called the Bit
+            type.
+        </li>
+    </ul>
+    <!--
+        Integer
+    -->
+    <h2 id="Integer" class="definition">Integer Type</h2>
+
+    <h3 class="definition">Definition:</h3>
+    The integer type is a scalar whose set of values includes integer numbers of the specified range.
+    <br>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        variable name : INTEGER  := a_integer_number ;
+        type new_name is  integer_left_bound to  integer_right_bound; -- descending
+        type new_name is  integer_left_bound downto  integer_right_bound; -- ascending
+    </code></pre>
+
+
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        An integer type is a numeric type which consists of integer numbers within the specified range. There is only
+        one predefined Integer type, and that is type Integer which range depends on the implementation,<br>
+        but must cover at least the range <b>+/-(2E31 - 1).</b>
+        A user-defined integer type can be constructed on the basis of the predefined Integer type by constraining its
+        range.
+        <br>All integer types (including user-defined) have the same set of arithmetic operators, defined in the package
+        Standard, namely: <b>addition, subtraction, multiplication, division, modulus, and remainder</b>.
+        <br>In all cases both operands and the result are of the integer type.
+        Relations can be checked on integer operands:<b>equal, unequal, greater than, less than, greater or equal than,
+            and less or equal than</b>.
+        <br> In all cases, <b>the result is of the Boolean type.</b>
+    </p>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        variable number_of_cards: INTEGER := 52;
+        type Level is range 0 to  7;
+        type student_grade is range 0 to 100;
+    </code></pre>
+    <h3 class="definition">Notes</h3>
+    <ul class="notes">
+        <li>It is an error to assign to an integer object a value which is from outside its range.</li>
+    </ul>
+    <!-- 
+            FLOATING POINT
+    -->
+    <h2 id="Floating" class="definition">Floating Point</h2>
+    <h3 class="definition">Definition:</h3>
+    A floating point type provides an approximation to the real numbers
+    <br>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        constant name : REAL := real_number ;
+        type new_name is range real_number_left_bound downto  real_number_right_bound; -- descending
+        type new_name is range real_number_left_bound to  real_number_right_bound;  -- ascending
+    </code></pre>
+
+
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        A floating point type is a numeric type consisting of real numbers which values are constrained by a specified
+        range.
+
+        There exists only one predefined floating point type: Real.<br> The range of the values for the type Real are
+        implementation-dependent,
+        but it is required by the standard that it covers the values from <b>-1.0E38</b> to <b>+1.0E38</b>.<br>
+        A user-defined floating point type can be constructed on the basis of the predefined Real type by constraining
+        its range.<br>
+        The bounds of the range of a user-defined floating point type must be static floating point type expressions.
+        <br>All floating point types (including user-defined) have the same set of arithmetic operators, namely:
+        <b>addition, subtraction, multiplication, division, absolute function and exponentiation</b>.
+    </p>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        constant pi : REAL := 3.14159 ;
+        type InputLevel is range -6.55 to  +12.35;
+        type Int64K is range -65536.00 to 65535.00;
+    </code></pre>
+    <h3 class="definition">Notes</h3>
+    <ul class="notes">
+        <li>The floating point types are not synthesizeable. The floating point type is used for high level simulations
+        </li>
+        <li>VHDL doesn't natively support +infinity and -infinity. However you can work around it </li>
+    </ul>
+    <ol>
+        <li>Use special Values:
+            Define special constants to represent +infinity and -infinity
+            <pre><code class="language-vhdl">
+                constant POSITIVE_INF : REAL := 1.0E308;
+                constant NEGATIVE_INF REAL := -1.0E308;
+            </code></pre>
+        </li>
+        <li>Floating Point Libraries:
+            if you're performing floating point operations and need IEEE-compliment handling of infinity<br>
+            you can use VHDL Libraries such as the IEEE <b>float_pkg</b>
+            <pre><code class="language-vhdl">
+                library ieee;
+                use ieee.float_pkg.all;
+                variable limit : float32 := INF; -- Positive Infinity
+                variable distance float32:= -INF;  -- Negative Infinity
+            </code></pre>
+
+        </li>
+    </ol>
+        <!--
+            PHYSICAL
+         -->
+        <h2 id="Physical" class="definition">Physical</h2>
+
+        <h3 class="definition">Definition:</h3>
+        A physical type represents an integer value together with a physical unit.
+        <br>
+        <h3 class="definition">Syntax:</h3>
+        <pre><code class="language-vhdl">
+        type new_name is range left_bound to downto right_bound;
+        units
+            primary_unit_name;
+            secondary_unit_name = number primary_unit_name;
+            ...
+        end units [ new_name ];
+</code></pre>
+
+
+        <h3 class="definition">Description:</h3>
+        <p class="big-line-height">
+            A physical type allows to define measurement units for some physical quantity, like length, time, pressure,
+            capacity, etc.
+            A physical type declaration starts with the definition of a primary unit,
+            <br>which is optionally followed by, one or more secondary units. The primary unit serves as the base unit
+            for
+            representing values of the specified type.
+            <br>The secondary units are defined as multiplicity of primary units or previously specified secondary
+            units.
+            Their declarations may contain only integer literals.
+            <br>Each value of a physical type has a corresponding position number, which is the number of primary units
+            represented by that unit name.
+            This way values specified in different units of the same type can be compared.
+        </p>
+        <h3 class="definition">Example:</h3>
+        <pre><code class="language-vhdl">
+        type Capacity  is range to integer'high
+        units
+            pF; -- picofarad
+            nF = 1000 pF ; -- nanofarad
+            mF = 1000 nF ; -- microfarad
+            mF = 1000 uF ; -- milifarad
+            F = 1000 mF ; -- Farad
+        end units
+</code></pre>
+        <h3 class="definition">Notes</h3>
+        <ul class="notes">
+            <li>Physical types are not synthesizeable.</li>
+            <li>it is not allowed to use floating point values in physical type declarations.i.e<br>
+                if a conversion from millimeters to inches (25.4 mm = 1 in) would have to be performed, the millimeters
+                could not to be used as the base unit.</li>
+            <li>The only commonly used physical type is Time</li>
+        </ul>
+        <!--
+            ENUMERATION
+    -->
+        <h2 id="Enumeration" class="definition">Enumeration Type</h2>
+        <h3 class="definition">Definition:</h3>
+        The enumeration type is a type whose values are defined by listing all possible values explicitly. Each value is
+        either a name or a character.
+        <br>
+        <h3 class="definition">Syntax:</h3>
+        <pre><code class="language-vhdl">
+           type new_name is  ( type_element, type_element, ...);
+        </code></pre>
+        <h3 class="definition">Description:</h3>
+        <p class="big-line-height">
+            The enumeration type is a type with an ordered set of values, called enumeration literals, and consisting of
+            identifiers and character literals.<br> The same value cannot appear twice in the same type, but may appear
+            in
+            two (or more) different enumeration types. This is called overloading.<br>
+
+            All enumerated values are ordered and each of them has a numeric (integer) value assigned to it. This number
+            indicates the position of the value in the list.<br>
+            The first value in the definition has position number zero and each subsequent has the number increased by
+            one
+            from its predecessor.
+        </p>
+        <h3 class="definition">Example:</h3>
+        <pre><code class="language-vhdl">
+            type FSM_States is (idle, start, stop, clear);
+            type std_ulogic is ('U', 'X', '0', '1', 'Z', 'W', 'L', 'H', '-');
+        </code> </pre>
+        <h3 class="definition">Notes</h3>
+        <ul class="notes">
+            <li>It is illegal to define an enumeration type with a range.</li>
+            <li>A character in the list of values is a printable charter enclosed in single quotes!</li>
+            <li>The package Standard contains declarations of several predefined enumeration types.</li>
+        </ul>
+    <!--
+        Character Type
+    -->
+    <h2 id="Character" class="definition">Character Type</h2>
+        <h3 class="definition">Definition:</h3>
+        The character type object is an enumeration type object with at least one literal character among its enumeration literals.
+        <br>
+        <h3 class="definition">representation:</h3>
+        <pre><code class="language-vhdl">
+        type character is (
+                            NUL, SOH, STX, ETX, EOT, ENQ, ACK, BEL,
+                            BS, HT, LF, VT, FF, CR, SO, SI,
+                            DLE, DC1, DC2, DC3, DC4, NAK, SYN, ETB,
+                            CAN, EM, SUB, ESC, FSP, GSP, RSP, USP,
+                            ' ', '!', '"', '#', '$', '%', &amp;, ''',
+                            '(', ')', '*', '+', ',', '-', '.', '/',
+                            '0', '1', '2', '3', '4', '5', '6', '7',
+                            '8', '9', ':', ';', '&lt;', '=', '&gt;', '?',
+                            '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+                            'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+                            'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                            'X', 'Y', 'Z', '[', '\', ']', '^', '_',
+                            '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+                            'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+                            'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+                            'x', 'y', 'z', '{', '|', '}', '~', DEL
+                        );
+        </code></pre>
+        <h3 class="definition">Description:</h3>
+        <p class="big-line-height">
+            The CHARACTER data type enumerates the ASCII character set. Nonprinting characters are represented by a three-letter name, such as NUL for the null character. Printable characters are represented by themselves, in single quotation marks
+        </p>
+        <h3 class="definition">Example:</h3>
+        <pre><code class="language-vhdl">
+            variable CHARACTER_VAR: CHARACTER;
+            CHARACTER_VAR := 'A';
+        </code> </pre>
+        <h3 class="definition">Notes</h3>
+        <ul class="notes">
+           <li>The CHARACTER type is a predefined type declared in the STANDARD package and the values of this type are the 256 characters of the ISO 8859-1 (Latin 1).</li>
+        </ul>
+    <!-- Activate Prism.js -->
+    <script>Prism.highlightAll();</script>
+</body>
+
+</html>

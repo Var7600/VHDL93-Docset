@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VHDL concurrent statement">
+    <meta name="keywords" content="VHDL process, signal assignment">
+    <title>VHDL93 - Concurrent Statement</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- Prism for syntax highlighting -->
+    <link href="../styles/prism.css" rel="stylesheet">
+    <script src="../scripts/prism.js"></script>
+</head>
+
+<body>
+    <h1 id="Concurrent" class="definition">Concurrent Statements</h1>
+    <p>
+        Concurrent statements are concurrent with respect to all other such statements.the following are concurrent
+        statements
+    </p>
+    <ul>
+        <li><a href="#process">Process Statements</a></li>
+        <li><a href="#block">Block</a></li>
+        <li><a href="#instantiation">instantiation</a></li>
+        <li><a href="#assert">Assert</a></li>
+        <li><a href="#generate">Generate</a></li>
+        <li><a href="#procedure_call">Procedure call</a></li>
+        <li><a href="#signal_assignment">Signal Assignment</a></li>
+    </ul>
+    <!--
+        PROCESS STATEMENTS
+    -->
+    <h2 id="process" class="definition">Process</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        A concurrent statement which describes a behavior.<br>A <b>process</b> is itself a <i>concurrent statement, </i>
+        but the instructions inside a <b>process</b> are <i>sequential statements </i>that execute in series from top to
+        bottom.<br>
+
+        The process declarative part defines items that are only visible within that process. The declarative part may
+        contain declarations of: <b>subprograms, types, subtypes, constants, variables, files, aliases, attributes</b>,
+        use clauses and group declarations.
+        <br><b>It is not allowed to declare signals or shared variables inside processes.</b><br>
+
+        After the last statement is executed, execution will continue with the first statement forever until a <b>wait
+            statements</b> is met.
+        <br>
+
+        The sensitivity list is optional and contains a list of signals to which the process is sensitive. A change of a
+        value of one of these signals causes the suspended process to resume.<br> A sensitivity list is equivalent to
+        wait
+        on sensitivity_list at the end of the process.
+        <br>
+        <b>A postponed process</b> runs when all other processes have completed, at the end of a simulation. Their main
+        use is
+        to perform timing or functional checks, based on the 'steady-state' values of signals.
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        [ label: ] [ postponed ] process [ ( sensitivity_list ) ] [ is ]
+                                variables declarations
+                                begin
+                                 sequential_statements ...
+                                end [ postponed ] process [ label ] ;
+        </code>
+    </pre>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        Counter : process (Reset, Clock)
+        begin
+            if Reset = '0' then
+                -- Asynchronous reset
+                Count &lt; (others =&gt; '0');
+            elsif Rising_edge(Clock) then
+                if Load = '0' then
+                    -- Synchronous load
+                    Count &lt;= Data;
+                else
+                    Count &lt;= Count + '1';
+                end if;
+            end if;
+        end process Counter;
+        </code>
+    </pre>
+    <p class="big-line-height">
+        <b>
+            Processes are one of the most useful VHDL statements for synthesis, yet
+            many processes are unsynthesizable.<br> For best results, code should be
+            restricted to the following process templates:
+        </b>
+    </p>
+    <pre><code class="language-vhdl">
+        process (Inputs)
+        begin
+            if Enable = '1' then
+                ...
+            end if;
+        end process;
+        -- All inputs in sensitivity list
+        -- Latched actions
+        -- Gives transparent latches + logic
+
+        process (Clock)
+            -- Clock only in sensitivity list
+        begin
+            if Rising_edge(Clock) then -- Test clock edge only
+                ...
+                -- Synchronous actions
+            end if;
+        end process;
+        -- Gives flipflops + logic
+
+        process (Clock, Reset) -- Clock and reset only in sensitivity list
+        begin
+            if Reset = '0' then
+                -- Test active level of asynchronous reset
+                ...
+                -- Asynchronous actions
+            elsif Rising_edge(Clock) then -- Test clock edge only
+                ...
+                -- Synchronous actions
+            end if;
+        end process;
+        -- Gives flipflops + logic
+
+        process
+            -- No sensitivity list
+        begin
+            wait until Rising_edge(Clock);
+            ...
+            -- Synchronous actions
+        end process;
+        -- Gives flipflops + logic
+        </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>A process must contain either a <b>sensitivity list</b> or <b>wait statements</b>, but not
+            both.</li>
+        <li>If a process with a sensitivity list calls a procedure, then the procedure cannot contain a wait statement.
+        </li>
+        <li>Every process executes once during initialization, before simulation starts.</li>
+        <li><b>A postponed process</b> is not executed until the final simulation cycle of a
+            particular simulation time, and thus sees the stable values of signals and
+            variables.</li>
+    </ul>
+    <!--
+        BLOCK STATEMENTS
+    -->
+    <h2 id="block" class="definition">Block</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        The block statement is used to group together concurrent statements in an architecture.
+        <br>
+        The block statement groups concurrent statements in an architecture. The two main purposes for using blocks are:
+        improve readability of the specification and to disable some signals by using the guarded expression (see
+        Guarded).
+        <br>
+        The block statement is organizational only the use of a block does not directly affect the execution of a
+        simulation model.
+        <br>
+        The block declarations are local to the block and are not visible outside it.
+    </p>
+
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        [ block_label ]: block [ (optional_guard_condition) ] [ is ]
+        [ generic; [ generic_map; ] ]
+        [ port; [ port_map; ] ]
+        [ block_declarations ]
+         begin
+	        concurrent statements
+         end block [ block_label ];
+        </code>
+    </pre>
+    <p>
+        - IF an optional <b>guard condition</b>is included, the block becomes a <b>guarded block</b>. the guard
+        condition must return a boolean value, and controls guarded signal assignments within the block.
+        If the guard condition evaluates to false, the drive to any guarded signals from the block is "switched off".
+        Such signals must be declared to be guarded signals of a resolved type.
+    </p>
+    <p> - Guarded signals can be declared by adding the words <b>bus</b> or <b>register</b> after the name of the type
+        of the signal.</p>
+    <p>
+        - Without a guard condition a block is a grouping together of concurrent statements within an architecture.
+        It may have local signals, constants etc. declared.
+    </p>
+    <p>
+        - <b>Unguarded block</b> statements are usually ignored by logic synthesis tools (i.i. all blocks within an
+        architecture are "flattened").
+        <b>Guarded block </b>statements are <b>not</b> usually supported for synthesis.
+    </p>
+    <p>
+        - <b>Blocks</b> may contain further blocks, implying a form of hierarchy within a single architecture.
+    </p>
+
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        -- block 1
+        CONTROL_LOGIC: block
+        begin
+          U1: CONTROLLER_A
+            port map (CLK,X,Y,Z);
+          U2: CONTROLLER_A
+              port map (CLK,A,B,C);
+        end block CONTROL_LOGIC;
+
+        -- block 2
+        DATA_PATH: block
+        begin
+          U3: DATAPATH_A port map
+            (BUS_A,BUS_B,BUS_C,Z);
+          U4: DATAPATH_B port map
+            (BUS_A,BUS_C,BUS_D,C);
+        end block DATA_PATH;
+
+        -- block with guarded condition
+        architecture rtl of TRISTATE is
+        signal INT: std_logic bus;
+        begin
+            DRIVER_1: block (EN = '1')
+        begin
+            INT &lt;= guarded DATA_1;
+        end block DRIVER_1;
+        end rtl;
+        </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>It is not necessary to learn and use blocks and related syntax (such as guarded signal assignments).
+            <br> It is generally more efficient for simulation <b>to use processes instead.</b>
+        </li>
+        <li>It is strongly recommended not to use blocks in non-VITAL designs.</li>
+        <li>VITAL specifications require the use of blocks.</li>
+        <li>Guarded blocks are usually not supported for synthesis.</li>
+    </ul>
+    <!--
+        INSTANTIATION STATEMENT
+    -->
+    <h2 id="instantiation" class="definition">Instantiation</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        An instantiation is a concurrent statement which is used to define the design hierarchy by making a copy of a
+        lower level design entity within an architecture.<br>
+        An instantiation statement defines a sub-component of the design entity.<br>
+        In VHDL'87 it was only possible to instantiate components. In <b>VHDL'93 it is allowed to instantiate entities
+            and also configurations</b>.
+        <br>
+        For an instantiation of a component this component must have been declared before.<br>
+
+        For the instantiation of an entity or a configuration these have to be compiled into a library.
+        This library has to be visible when compiling the instantiations.
+    </p>
+
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        instance_label: [ component ] component_name
+            [ generic map ] [ port map ];
+
+        instance_label: entity entity_name [ ( architecture_name ) ]
+            [ generic map ] [ port map ];
+
+        instance_label: configuration configuration_name
+            [ generic map ] [ port map ];
+        </code>
+    </pre>
+
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+    -- my_component is integrated into the current architecture without a Port-Map.
+    c_1 : my_component ;
+
+    -- The component add_n is instantiated with the generic value 8 . In this process the signal s8
+    -- is linked to the ports Vss , a8 , b8 , sum and sig is linked to the port cout of the instantiated component.
+    c : add_n
+    GENERIC MAP (8)
+    PORT MAP (Vss, a8, b8, sum =&gt; s8,cout =&gt; sig ) ;
+
+    -- The entity my_entity is directly instantiated.
+    -- The signals I1 and I2 of my_entity are connected with the local signals S1 and S2.
+    u_myent: ENTITY
+    work.my_entity(beh)
+    PORT MAP (I1 =&gt; S1 , I2 =&gt; S2 ) ;
+
+    -- The configuration my_cfg is instantiated
+    -- The signals I1 and I2 of the entity linked by the configuration are connected with the local signals S1 and S2.
+    u_config: CONFIGURATION
+    work.my_cfg
+    PORT MAP (I1 =&gt; S1 , I2 =&gt; S2 ) 
+        u1: nand4 port map(A, B, Q);
+        u2: entity work.Parity
+        generic map(N =&gt; 8)
+        port map(A =&gt; Data,
+        Odd =&gt; ParityByte);
+    </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>An entity, architecture or configuration must be compiled into a library before the corresponding instance
+            can be compiled.
+            <br>However, an instance of a component can be compiled before the corresponding design entity has even be
+            written.
+        </li>
+    </ul>
+    <!--
+        ASSERT STATEMENTS
+    -->
+    <h2 id="assert" class="definition">Assert</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        <b>Assert</b> is a sequential or concurrent statement used to write out a message when an exception occurs.
+        if the condition is False, the simulator writes out a report to the screen or log file.
+        <br>The simulator may be instructed to halt if the severity is above a particular level.
+    </p>
+    <p class="big-line-height">
+        The expression specified in the <b>report</b> clause must be of predefined type String and is a message to be
+        reported when assertion violation occurred.
+    </p>
+    <p class="big-line-height">
+        If the severity clause is present, it must specify an expression of predefined type Severity_Level, which
+        determines the severity level of the assertion violation.
+        <br> <i>The Severity_Level type</i> is specified in the Standard package and contains the following values:<br>
+        <b>Note, Warning, Error, and Failure</b>. If the severity clause is omitted it is implicitly assumed to be
+        Error.
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        [Label:] assert Condition
+        [report StringExpression]
+        [severity Expression];
+        </code>
+    </pre>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+    assert not (Reset = '0' and Set = '0') report "set-reset conflict" severity Failure;
+    assert result = ExpectedResults report "results differ from expected results" severity Warning;
+        </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>The default severity is <b>Error.</b></li>
+        <li>Assertions do not represent hardware. Synthesis tools ignore them or give a
+            warning.</li>
+    </ul>
+    <!--
+        GENERATE STATEMENT
+    -->
+    <h2 id="generate" class="definition">Generate</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        A concurrent statement used to create regular structures or conditional structures during elaboration.
+    </p>
+    <p class="big-line-height">
+        It simplifies the description of regular design structures. Usually it is used to specify a group of identical
+        components using just one component specification and repeating it using the generate mechanism.
+        <br>
+        A generate statement consists of three main parts:
+    </p>
+    <ul>
+        <li>generation scheme (either for scheme or if scheme);</li>
+        <li>
+            declaration part (local declarations of subprograms, types, signals, constants, components, attributes,
+            configurations, files and groups);
+        </li>
+        <li>concurrent statements.</li>
+    </ul>
+    <p class="big-line-height">
+        The generation scheme (either for scheme or if scheme);
+        declaration part (local declarations of subprograms, types, signals, constants, components, attributes,
+        configurations, files and groups);
+        concurrent statements.<br>
+        The generation scheme specifies how the concurrent structure statement should be generated. There are two
+        generation schemes available: for scheme and if scheme.
+
+        <br>The for generation scheme is used to describe regular structures in the design. In such a case, the
+        generation parameter and its scope of values are generated in similar way as in the sequential loop statement.
+
+        <br>The if generation scheme is used when the regular structure contains some irregularities.
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        [ Label ]: for ParameterName in Range generate
+        [Declarations...]
+        begin
+        ConcurrentStatements...
+        end generate [Label];
+
+        [ Label ]: if Condition generate
+        [Declarations...]
+        begin
+        ConcurrentStatements...
+        end generate [Label];
+        </code>
+    </pre>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        G1 : for I in 1 to Depth generate
+	        L : BLK port map(A(I), B(I + 1)); -- Repeated instance
+        end generate G1;
+
+        -- example 2
+        G2: if I = 3 generate
+             L: Blk port map (A(I+1), B(I+2));
+        end generate;
+        </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>Each generate statement must have a label.</li>
+        <li>Generate statements can be nested.</li>
+        <li>The Label at the beginning of the generate statement cannot be omitted.</li>
+        <li>Synthesis is straightforward, but not all synthesis tools support generate!</li>
+        <li><b>For...generate</b> is useful to replace repeated instances of the same
+            component.</li>
+    </ul>
+    <!--
+        PROCEDURE CALL STATEMENTS
+    -->
+    <h2 id="procedure_call" class="definition">Procedure Call</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        Like the name implied it call a <b>Procedure</b>. A <b>Procedure</b> is a subprogram Used to group together sequential
+        statements.
+    </p>
+    <p class="big-line-height">
+        A <b>Procedure</b> call is a sequential or concurrent statement, depending on where it is used. A sequential
+        procedure call is executed whenever control reaches it,
+        while a concurrent procedure call is activated whenever any of its parameters of in or inout mode changes its
+        value.
+    </p>
+    <p class="big-line-height">
+        Named association is advised to improve readability and reduce the risk of making mistakes.
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        [ label: ] procedure_name [ ( [ parameter =&gt; ] expression, ... 0 ) ]
+        </code>
+    </pre>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        -- calling procedure
+        init();
+
+        -- calling a parameterized procedure
+        do_arith_op( func );
+
+        -- calling a parameterized procedure
+        READ(L =&gt; BufLine, VALUE =&gt; Q);
+        </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>A procedure call in a clocked process may result in inferring registers from signal assignments within the
+            procedure.</li>
+    </ul>
+    <!--
+        SIGNAL ASSIGNMENTS STATEMENTS 
+    -->
+    <h2 id="signal_assignment" class="definition">SIGNAL ASSIGNMENTS</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        A <b>Signal assignment statement</b> modifies the target signal, The signal
+        assignment operator "&lt;=" specifies a relationship between signals. In other
+        words,<br> the signal on the left-hand side of the signal assignment operator is
+        dependent upon the signals on the right-hand side of the operator.
+        <br>
+        A <b>Signal assignment statement</b> can appear inside a process (sequential statement) or directly in an architecture (concurrent statement)
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+    target &lt;= expression;
+    signal_assignment_statement &lt;= name &lt;= ( value_expression [ after time_expression ] ) { , ... } ;
+        </code>
+    </pre>
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+    -- signal assignment with optional delay time.
+    ----------------
+    --- Example 1 --
+    ----------------
+    y &lt;= NOT(a) after 5 ns;
+    -- This specifies that the signal y is to take on the new value at a time 5 ns 
+    -- later than that at which the statement executes.
+
+    ----------------
+    --- Example 2 --
+    ----------------
+    --  a three-input NAND gate.
+    -- The three input signals are named A, B and C and the
+    -- output signal name is F.
+    library IEEE;
+    use IEEE.std_logic_1164.all;
+    entity nand3 is
+        port(
+            a,b,c : in std_logic;
+             f: out std_logic
+        );
+    end entity nand3;
+
+    architecture behavior of nand3 is
+        begin
+        -- concurrent signal assignment
+        f &lt;= NOT( a AND b AND  c );
+    end architecture behavior;
+
+        </code>
+    </pre>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>Delays are usually ignored by synthesis tool.</li>
+    </ul>
+    <script>Prism.highlightAll();</script>
+</body>
+
+</html>
