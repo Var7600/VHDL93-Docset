@@ -22,8 +22,10 @@ The **VHDL93 Docset** provides offline access to VHDL-93 documentation for users
 2. Click `Add Feed` and enter the following URL:
    
    ```
-   https://github.com/Var7600/VHDL93-Docset/VHDL93.xml
+   https://Var7600.github.io/VHDL93-Docset/VHDL93.xml
    ```
+   
+   
 
 3. Click `OK` and then `Download` the docset.
 
@@ -34,8 +36,10 @@ The **VHDL93 Docset** provides offline access to VHDL-93 documentation for users
 2. Click the `+` button and add the following feed:
    
    ```
-   https://github.com/Var7600/VHDL93-Docset/VHDL93.xml
+   https://Var7600.github.io/VHDL93-Docset/VHDL93.xml
    ```
+   
+   
 
 3. Download the docset and start using it.
 
