@@ -47,8 +47,8 @@ The **VHDL93 Docset** provides offline access to VHDL-93 documentation for users
 
 Alternatively, you can download the docset manually:
 
-1. Download the latest `.tgz` file from the [Releases](https://github.com/Var7600/VHDL93-Docset/releases).
-2. Extract the `.tgz` file and move `VHDL93.docset`**to Zeal’s or Dash’s docsets directory.**
+1. Download the latest `.zip` file from the [Releases](https://github.com/Var7600/VHDL93-Docset/releases).
+2. Extract the `.zip` file and move `VHDL93.docset`**to Zeal’s or Dash’s docsets directory.**
 
 ## Building the Docset
 
