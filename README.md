@@ -1,5 +1,7 @@
 # VHDL93 Docset for Zeal & Dash
 
+https://var7600.github.io/VHDL93-Docset/
+
 ## Overview
 
 The **VHDL93 Docset** provides offline access to VHDL-93 documentation for users of [Zeal](https://zealdocs.org/) and [Dash](https://kapeli.com/dash). This docset includes **syntax references, examples, and explanations of key VHDL concepts.**
@@ -20,7 +22,7 @@ The **VHDL93 Docset** provides offline access to VHDL-93 documentation for users
 2. Click `Add Feed` and enter the following URL:
    
    ```
-   https://Var7600.github.io/VHDL93-Docset/VHDL93.xml
+   https://github.com/Var7600/VHDL93-Docset/VHDL93.xml
    ```
 
 3. Click `OK` and then `Download` the docset.
@@ -32,7 +34,7 @@ The **VHDL93 Docset** provides offline access to VHDL-93 documentation for users
 2. Click the `+` button and add the following feed:
    
    ```
-   https://Var7600.github.io/VHDL93-Docset/VHDL93.xml
+   https://github.com/Var7600/VHDL93-Docset/VHDL93.xml
    ```
 
 3. Download the docset and start using it.
