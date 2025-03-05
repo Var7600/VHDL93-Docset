@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+
+<html lang="en-us">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VHDL 93 Reference Guide</title>
+</head>
+
+<body>
+    <!-- 
+        OVERVIEW 
+    -->
+    <h1>VHDL Language Overview</h1>
+    <p class="big-line-height">VHDL, which stands for <b><i>VHSIC (Very High Speed Integrated Circuit) Hardware Description
+            Language</i></b>, was developed in the early 1980s
+        as a spin-off of a high-speed integrated circuit research project funded by <b> <i>the U.S. Department of
+            Defense.</i></b><br>
+        VHDL is designed to fill a number of needs in the design process. <i>Firstly,</i> it allows description of the
+        structure of a design, that is how it is decomposed into sub-designs,
+        and the connection between the sub-designs.
+        <br><i>Secondly </i>it allows the specification of the design function using programming language forms.
+        <i>Thirdly,
+        </i>it allows a design to be simulated before being manufactured.
+        In 1987, VHDL has been adopted as a standard by the IEEE (IEEE STD 1076-1987).
+        <br>The standard was revised in 1993 (IEEE STD 1076-1993) to include a number of significant improvements.
+    </p>
+    <ul>
+        <li><b>Consistent statement declarations</b></li>
+        <li><b>Direct instantiation of entities and configurations</b></li>
+        <li><b>Extended identifiers, allowing any printable character in a name</b> </li>
+        <li><b>Opening, closing and appending to files</b></li>
+        <li><b>New predefined attributes</b> </li>
+        <li><b>New shift, rotate and xnor operators</b></li>
+        <li><b>A value of type std_logic_vector can be written as a string with an explicit number base</b></li>
+        <li> <b>Constants and constant expressions may be associated with input ports in the port map
+                Declarations within a generate statement</b></li>
+        <li><b>Postponed processes which execute in the last delta of the simulation time</b></li>
+        <li><b>Pure (default) and impure functions</b></li>
+        <li><b>Shared variables, variables that may be accessed by more than one process</b></li>
+        <li><b>The keyword unaffected, which indicates a condition when a signal is not given a new assignment in a
+                conditional signal assignment</b></li>
+        <li><b>The group construct to group a collection of VHDL objects</b></li>
+        <li><b>Labels on sequential statements</b></li>
+        <li><b>Report statement for writing messages</b></li>
+    </ul>
+    <p class="big-line-height">
+        This reference guide contains information about most items that are available in the VHDL language. All subjects
+        contain one or more examples and link(s) to other subjects that are related
+        to the current subject. <br>
+        This reference guide is not intended to replace the IEEE Standard VHDL Language Reference Manual, IEEE STD
+        1076-1993.
+        The VHDL syntax description in this reference manual uses the following grammar:
+    </p>
+    <ul>
+        <li><b>Syntax enclosed in square brackets [ ] is optional.</b></li>
+        <li> <b>The VHDL comment syntax, two adjacent hyphens --, has the same meaning.</b>
+        </li>
+        <li><b>light Turquoise words are keywords in the VHDL language.</b></li>
+        <li><b>Underlined syntax belongs to the VHDL'93 language, but not to the VHDL'87.</b></li>
+    </ul>
+    <!-- 
+        Table of Contents
+    -->
+    <div>
+        <h1 id="Overview">Table of Contents</h1>
+        <ul class="circle">
+            <!--
+                RESERVED WORDS
+            -->
+            <li><a id="Reserved-Words" class="Keyword" href="HTML/reservedwords.html">Reserved Words</a></li>
+            <li><a id="operators" class="Operator" href="HTML/operators.html">Operators</a></li>
+            <!-- 
+                    DATA-TYPES 
+                -->
+            <li><a id="Data-Type" class="Type" href="HTML/datatypes.html">1 Data-Types</a>
+                <ul class="">
+                    <li><a id="Identifiers" class="Guide" href="HTML/identifiers.html#Name">1.0 Identifiers</a></li>
+                    <li class="no-bullet">
+                        <ul>
+                            <li><a class="Guide" href="HTML/identifiers.html#Name">1.0.1 Name</a></li>
+                            <li><a class="Guide" href="HTML/identifiers.html#Alias">1.0.2 Alias</a></li>
+                            <li><a class="Guide" href="HTML/identifiers.html#Group">1.0.3 Group</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a id="Scalar" class="Type" href="HTML/datatypes.html#Scalar">1.1 Scalar types</a></li>
+                    <li class="no-bullet">
+                        <ul>
+                            <li><a class="Type" id="Bit" href="HTML/datatypes.html#Bit">1.1.1 Bit Type</a></li>
+                            <li><a class="Type" id="Boolean" href="HTML/datatypes.html#Boolean">1.1.2 Booleans</a>
+                            </li>
+                            <li><a class="Type" id="Integer" href="HTML/datatypes.html#Integer">1.1.3 Integer Types</a>
+                            </li>
+                            <li><a class="Type" id="Floating" href="HTML/datatypes.html#Floating">1.1.4 Real(Floating
+                                    Point Type)</a></li>
+                            <li><a class="Type" id="Physical" href="HTML/datatypes.html#Physical">1.1.5 Time and other
+                                    Physical Types</a></li>
+                            <li><a class="Type" id="Enumeration" href="HTML/datatypes.html#Enumeration">1.1.6
+                                    Enumeration Types</a></li>
+                            <li><a class="Type" id="Character" href="HTML/datatypes.html#Character">1.1.7 Characters
+                                    Type</a></li>
+                        </ul>
+                    </li>
+                    <li><a id="Composite" class="Type" href="HTML/compositetypes.html#Composite">1.2 Composite types</a>
+                    </li>
+                    <li class="no-bullet">
+                        <ul>
+                            <li><a class="Type" id="Array" href="HTML/compositetypes.html#Array">1.2.1 Array</a>
+                                <ul>
+                                    <li><a class="Type" id="Bit-Vectors" href="HTML/compositetypes.html#bit_vectors">
+                                            1.2.1.1 Bit Vectors</a></li>
+                                    <li><a class="Type" id="Strings" href="HTML/compositetypes.html#Strings"> 1.2.1.2
+                                            String</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="Type" id="Record" href="HTML/compositetypes.html#Record">1.2.2 Record</a></li>
+                            <li><a class="Type" id="Access" href="HTML/compositetypes.html#Access">1.2.3 Access</a></li>
+                            <li><a class="Type" id="File" href="HTML/compositetypes.html#File">1.2.4 File</a></li>
+                        </ul>
+                    </li>
+                    <li><a id="Types" class="Type" href="HTML/types.html#Type">1.3 Types</a></li>
+                    <li class="no-bullet">
+                        <ul>
+                            <li><a id="Subtype" class="Type" href="HTML/types.html#Subtype">1.3.1 Type &amp; Subtype</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <!-- 
+                DATA-OBJECTS 
+            -->
+            <li><a id="Data-Objects" class="Object" href="HTML/dataobjects.html">2 Data-Objects</a>
+                <ul>
+                    <li><a class="Object" id="Constant" href="HTML/dataobjects.html#Constant">2.1 Constant</a></li>
+                    <li><a class="Object" id="Variable" href="HTML/dataobjects.html#Variable">2.2 Variable</a></li>
+                    <li><a class="Object" id="Signal" href="HTML/dataobjects.html#Signal">2.3 Signal</a></li>
+                    <li><a class="Object" id="Shared-Variable" href="HTML/dataobjects.html#Shared-Variable">2.3 Shared
+                            Variable</a>
+                    </li>
+                </ul>
+            </li>
+            <!--
+            STATEMENT
+        -->
+            <li><a id="Statements" class="Statement" href="HTML/statements.html">3 Statements</a>
+                <ul>
+                    <li><a id="Sequential" class="Statement" href="HTML/statements.html#Sequential">3.1 Sequential
+                            Statements</a>
+                        <ul>
+                            <li><a class="Statement" id="If" href="HTML/statements.html#If">3.1.1 IF Statements</a></li>
+                            <li><a class="Statement" id="Case" href="HTML/statements.html#Case">3.1.2 Case
+                                    Statements</a></li>
+                            <li><a class="Statement" id="Loop" href="HTML/statements.html#Loop">3.1.3 Loop and Exit
+                                    Statements</a></li>
+                            <li><a class="Statement" id="While" href="HTML/statements.html#While">3.1.4 While Loops
+                                    Statements</a></li>
+                            <li><a class="Statement" id="For" href="HTML/statements.html#For">3.1.5 For Loops
+                                    Statements</a></li>
+                            <li><a class="Statement" id="Assertion" href="HTML/statements.html#Assertion">3.1.6
+                                    Assertion Statements</a></li>
+                            <li><a class="Statement" id="Report" href="HTML/statements.html#Report">3.1.7 Report
+                                    Statements</a></li>
+                        </ul>
+                    </li>
+                    <li><a id="Concurrent" class="Statement" href="HTML/concurrent.html#concurrent">3.2 Concurrent
+                            Statements</a>
+                        <ul>
+                            <li><a class="Statement" id="Process" href="HTML/concurrent.html#process">3.2.1 Process
+                                    Statements</a></li>
+                            <li><a class="Statement" id="Block" href="HTML/concurrent.html#block">3.2.2 Block
+                                    Statements</a></li>
+                            <li><a class="Statement" id="Instantiation" href="HTML/concurrent.html#instantiation">3.2.3
+                                    Instantiation Statements</a></li>
+                            <li><a class="Statement" id="Assert" href="HTML/concurrent.html#assert">3.2.4 Assert
+                                    Statements </a></li>
+                            <li><a class="Statement" id="Generate" href="HTML/concurrent.html#generate">3.2.5 Generate
+                                    Statements </a></li>
+                            <li><a class="Statement" id="Procedure" href="HTML/concurrent.html#procedure_call">3.2.6
+                                    Procedure Call </a></li>
+                            <li><a class="Statement" id="Assignment" href="HTML/concurrent.html#signal_assignment">3.2.7
+                                    Signal Assignment </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <!--
+                SUBPROGRAM
+            -->
+            <li><a id="Subprograms" class="Subroutine" href="HTML/subprograms.html">4 Subprograms</a>
+                <ul>
+                    <li><a class="Subroutine" href="HTML/subprograms.html#procedure">4.1 Procedures</a>
+                        <ul>
+                            <li><a class="Subroutine" href="HTML/subprograms.html#procedure_without_parameter">4.1.1
+                                    Procedure without parameter</a></li>
+                            <li><a class="Subroutine" href="HTML/subprograms.html#procedure_parameters">4.1.2 Procedure
+                                    parameters</a>
+                                <ul>
+                                    <li><a class="Subroutine" href="HTML/subprograms.html#in"> 4.1.3 In mode</a></li>
+                                    <li><a class="Subroutine" href="HTML/subprograms.html#out">4.1.4 Out mode</a></li>
+                                    <li><a class="Subroutine" href="HTML/subprograms.html#inout">4.1.5 inout mode</a>
+                                    </li>
+                                    <li><a class="Subroutine" href="HTML/subprograms.html#signal_parameters">4.1.6
+                                            Signal parameters</a></li>
+                                    <li><a class="Subroutine" href="HTML/subprograms.html#file_parameters">4.1.7 File
+                                            parameters</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="Subroutine" href="HTML/subprograms-function.html#function">4.2 Functions</a></li>
+                </ul>
+
+            </li>
+            <!--
+                PACKAGES AND USE CLAUSES
+            -->
+                <li><a id="Packages" href="HTML/package.html" class="Package">4.3 Package</a>
+                    <ul>
+                        <li> <a class="Package" href="HTML/package.html#package_declaration"> 4.3.1 Package Declaration</a></li>
+                        <li> <a class="Package" href="HTML/package.html#package_body">  4.3.2 Package Body </a></li>
+                        <li> <a class="Package" href="HTML/package.html#library">  4.3.3 Library Clause </a></li>
+                        <li> <a class="Package" href="HTML/package.html#use">  4.3.4 Use Clauses  </a> </li>
+                    </ul>
+                </li>
+            <!--
+                BASIC MODELING CONSTRUCTS
+            -->
+            <li> <a id="Modeling" href="HTML/modeling.html#modeling" class="Module" >4.4 Basic Modeling</a>
+                <ul>
+                    <li> <a class="Module"  href="HTML/modeling.html#entity">4.4.1 Entity</a> </li>
+                    <li> <a class="Module" href="HTML/modeling.html#architecture">4.4.2 Architecture</a> </li>
+                    <li> <a class="Module" href="HTML/instantiation.html">4.4.3 Instantiation</a> </li>
+                    <li> <a class="Module" href="HTML/configuration.html">4.4.4 Configuration Declaration</a> </li>
+                    <li> <a class="Module" href="HTML/specification.html">4.4.5 Configuration Specification</a> </li>
+                    <li> <a class="Module" href="HTML/component.html">4.4.6 Component Declaration </a> </li>
+                    <li> <a class="Module" href="HTML/generic.html">4.4.7 Generic &amp; Generic Map </a> </li>
+                    <li> <a class="Module" href="HTML/port.html">4.4.8 Port &amp; Port Map </a> </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

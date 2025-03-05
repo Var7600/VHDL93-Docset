@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="VHDL type and Subtype">
+    <meta name="keywords" content="VHDL scalar type, VHDL composite type, VHDL files type, VHDL access type">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VHDL93 - Types</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- Prism for syntax highlighting -->
+    <link href="../styles/prism.css" rel="stylesheet">
+    <script src="../scripts/prism.js"></script>
+</head>
+
+<body>
+    <!--
+        TYPES
+    -->
+    <h1 class="definition">Types</h1>
+    <p>
+        A set of values a set of operations.
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+            type type_name is array [ is data_type ];
+    </code></pre>
+
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        All signals, variables, constants (i.e. objects) and expressions have a type. The type defines the set of values
+        that the object or expression can have.<br>
+        A type also determines the set of operations which can be performed on an object or expression.
+
+        There are four classes of types in VHDL:
+    </p>
+    <ul>
+        <li> <b>scalar types</b>: represent a single numeric value, or in the case of enumerated types, an enumeration
+            value.
+        </li>
+        <li> <b>composite types</b>: represent a collection of values.</li>
+        <li> <b>access types</b>: provide access to objects of a given type.</li>
+        <li> <b>files</b>: provide access to objects that contain a sequence of values of a given type (typically disk
+            files).
+        </li>
+    </ul>
+    <p>
+        Apart from predefined types <i>(available through the packages <b>Standard, Std_logic_1164 and
+                Numeric_std</b>)</i>, the user can
+        define his own types.<br> A user-defined type can be of any of the four classes mentioned above.<br>
+        A value of one type cannot be assigned to an object of a different type. If a translation from one type to
+        another
+        is required, then type conversion must be applied.
+    </p>
+
+    <h3 class="definition">Example:</h3>
+    <pre><code class="language-vhdl">
+        type State is (TReset, TWait, THold, THalt);
+    </code></pre>
+
+    <h3 class="definition">Notes</h3>
+    <ul class="notes">
+        <li>VHDL is a strongly typed language which causes that two types defined in exactly the same way (i.e.
+            lexically identical) but differing only by names will be considered different.</li>
+        <li>The initial value of an object is the leftmost value of the type, i.e. the value on the left of the base
+            enumeration.</li>
+    </ul>
+    <h1 id="Subtype" class="definition">Subtype</h1>
+    <p class="big-line-height">
+        A value belongs to a subtype of a given type if it belongs to the type and satisfies the constraint; the given
+        type is called the base type of the subtype.<br>
+        A type is a subtype of itself. Such a subtype is said to be unconstrained because it corresponds to a condition
+        that imposes no restriction.
+    </p>
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+            subtype subtype_name is base_type range range_constraint;
+    </code></pre>
+
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        Subtype distinguishes a subset of values of some type.<br>
+        The part of the subtype declaration is the subtype indication, which denotes some other type or subtype. The
+        type_mark in a subtype_indication must refer to a type or a subtype that was declared earlier (Example 1).<br>
+        The constraints given in the subtype indication must correspond to the subtype :
+    </p>
+    <ul>
+        <li> <b>scalar types</b> - range constrains can be applied, for arrays - index constraints are applicable</li>
+        <li> <b>Records</b> cannot have any constraints</li>
+        <li> <b>Access</b> type may have index type constraints only when their type_mark denotes an array type</li>
+        <li> If the subtype declaration does not contain any constraints then the subtype is the same as the (sub)type
+            denoted by the type_mark.</li>
+    </ul>
+    <p class="big-line-height">
+        A special form of the subtype indication may include a resolution function name (Example 2). This form is not
+        allowed for declarations of access and file subtypes.<br>
+        <b>There are two predefined subtypes specified in the package STANDARD: natural and positive.</b> Both are
+        subtypes of
+        the type <b>INTEGER</b>. The package <i><b>std_logic_1164</b></i>,<br> also contains declarations of subtypes, which
+        are constrained
+        subtypes of the <i><b>std_logic: X01, X01Z, UX01, and UX01Z</b></i>
+    </p>
+    <h3 class="definition">Examples:</h3>
+    <b><i>Example 1:</i></b>
+    <pre><code class="language-vhdl">
+        subtype DIGITS is INTEGER range 0 to 9;
+    </code></pre>
+    <p>
+        INTEGER is a predefined type and the subtype DIGITS will constrain the type to ten values only, reducing the
+        size of registers if the specification is synthesized.
+    </p>
+    <b><i>Example 2:</i></b>
+    <pre><code class="language-vhdl">
+        type State is (TReset, TWait, THold, THalt);
+        subtype Status is State;
+    </code></pre>
+    <b><i>Example 3:</i></b>
+    <pre><code class="language-vhdl">
+        function RESOLVE_VALUE (anonymous: BIT_VECTOR) return BIT;
+        subtype BIT_NEW is RESOLVE_VALUE BIT;
+    </code></pre>
+    <p> The subtype BIT_NEW is a resolved version of the type BIT due to the reference to a resolution function
+        RESOLVE_VALUE specified earlier.</p>
+    <h3 class="definition">Notes</h3>
+    <ul class="notes">
+        <li> A subtype declaration does not define a new type.</li>
+        <li> A subtype is the same type as its base type; thus, no type conversion is needed when objects of a subtype
+            and its base type are assigned (in either direction). Also, the set of operations allowed on operands of a
+            subtype is the same as the set of operations on its base type. </li>
+        <li> Using subtypes of enumerated and integer types for synthesis is strongly recommended as synthesis tools
+            infer an appropriate number of bits in synthesized registers, depending on the range.</li>
+    </ul>
+     <!-- 
+        Activate Prism.js
+     -->
+     <script>Prism.highlightAll();</script>
+</body>
+
+</html>
