@@ -62,9 +62,16 @@ website2docset.py -n VHDL93 -v 0.0 -i icon.png HDL-Docs\
     # icong.png: the icon to add to the Docset
     # HDL-Docs: the HTML,CSS,JS directory
 
-## it will generate the VHDL93.docset 
-## after you can build the .tgz
- tar --exclude='.DS_Store' -czf VHDL93.tgz VHDL93.docset
+## it will generate the VHDL93.docset
+```
+
+## after you can build the .zip
+
+```bash
+# with zip in Linux
+zip -r VHDL93.zip VHDL93.docset
+# OR with 7zip in Windows
+7z a -tzip VHDL93.zip VHDL93.docset
 ```
 
 ## Contributing
