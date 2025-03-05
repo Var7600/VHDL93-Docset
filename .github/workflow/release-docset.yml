@@ -25,11 +25,11 @@ jobs:
         run: python website2docset.py -n VHDL93  -i icon.png HDL-Docs\  # script to generate docset
 
       - name: Archive Docset
-        run: tar --exclude='.DS_Store' -czf VHDL93.tgz VHDL93.docset
+        run: zip -r VHDL93.zip VHDL93.docset
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: VHDL93.tgz
+          files: VHDL93.zip
           token: ${{ secrets.VHDL_TOKEN }}
 
