@@ -68,8 +68,10 @@ website2docset.py -n VHDL93 -v 0.0 -i icon.png HDL-Docs\
 ## after you can build the .zip
 
 ```bash
+# with zip in Linux
 zip -r VHDL93.zip VHDL93.docset
-
+# OR with 7zip in Windows
+7z a -tzip VHDL93.zip VHDL93.docset
 ```
 
 ## Contributing
