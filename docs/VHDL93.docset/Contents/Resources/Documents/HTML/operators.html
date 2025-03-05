@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta name="description" content="vhdl Operators, vhdl Operator">
+    <meta name="keywords" content="vhdl, vhdl operators, vhdl logical operator, vhdl relation operator, vhdl shift operator">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../style.css" type="text/css">
+    <!-- Prism for syntax highlighting -->
+    <link rel="stylesheet" href="../styles/prism.css" type="text/css">
+    <script src="../scripts/prism.js"></script>
+    <title>VHDL - Operators</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .operator-type {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="definition">Operators</h1>
+    <h2 class="definition">Definition:</h2>
+    <p class="big-line-height">
+        Operators are means for constructing expressions. this are the different type of operator in VHDL
+    </p>
+    <ul>
+        <li><a href="#logical">LOGICAL OPERATORS</a> </li>
+        <li><a href="#relational">RELATIONAL OPERATORS</a> </li>
+        <li><a href="#shift">SHIFT OPERATORS</a> </li>
+        <li><a href="#adding">ADDING OPERATORS</a> </li>
+        <li> <a href="#sign">SIGN OPERATORS</a> </li>
+        <li> <a href="#multiplying">MULTIPLYING OPERATORS</a></li>
+        <li> <a href="#misc">MISCELLANEOUS</a></li>
+        <li> <a href="#examples">EXAMPLES</a></li>
+    </ul>
+    <h2 class="definition">Description :</h2>
+    <p class="big-line-height">
+        VHDL has a wide set of different operators, which can be divided into
+        groups of the same precedence level (priority). The table below lists
+        operators grouped according to priority level, highest priority first.
+    </p>
+
+    <table>
+        <tbody>
+            <tr>
+                <th scope="row">Operator type</th>
+                <th scope="row">and</th>
+                <th scope="row">or</th>
+                <th scope="row">nand</th>
+                <th scope="row">nor</th>
+                <th scope="row">xor</th>
+                <th scope="row">xnor</th>
+            </tr>
+            <tr>
+                <td class="operator-type">logical</td>
+                <td>and</td>
+                <td>or</td>
+                <td>nand</td>
+                <td>nor</td>
+                <td>xor</td>
+                <td>xnor</td>
+            </tr>
+            <tr>
+                <td class="operator-type">relational</td>
+                <td>=</td>
+                <td>/=</td>
+                <td>&lt;</td>
+                <td>&lt;=</td>
+                <td>&gt;</td>
+                <td>&gt;=</td>
+            </tr>
+            <tr>
+                <td class="operator-type">shift</td>
+                <td>sll</td>
+                <td>srl</td>
+                <td>sla</td>
+                <td>sra</td>
+                <td>rol</td>
+                <td>ror</td>
+            </tr>
+            <tr>
+                <td class="operator-type">adding</td>
+                <td>+</td>
+                <td>-</td>
+                <td>&amp;</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="operator-type">sign</td>
+                <td>+</td>
+                <td>-</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="operator-type">multiplying</td>
+                <td>*</td>
+                <td>/</td>
+                <td>mod</td>
+                <td>rem</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="operator-type">miscellaneous</td>
+                <td>**</td>
+                <td>abs</td>
+                <td>not</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <p class="big-line-height">
+        The expressions are evaluated form left to right, operations with
+        higher precedence are evaluated first. If the order should be
+        different from the one resulting from this rule, parentheses can be
+        used (Example 1).<br>
+
+        The operands, connected with each other by an operator, are evaluated
+        before the operation described by that operator is carried out. For
+        some operators the right operand is evaluated only when the left
+        operand has a certain value assigned to it.<br>The logical operators
+        such as <b>and, or , nand , nor</b>
+        defined for the BIT and BOOLEAN operands belong to those operators.<br>
+
+
+        The operators for the predefined types are defined in the STANDARD
+        package in the STD library. <br>These operators are functions, which
+        always return the same value when they are called with the same
+        values of the actual parameters. These functions are called the <i>pure
+            function (see function for details)</i>
+    </p>
+
+    <h3 id="logical" class="definition"> LOGICAL OPERATORS </h3>
+    <p class="big-line-height">
+        The logical operators <b>and, or , nand , nor, xor, xnor, not
+        </b> are defined for BIT and BOOLEAN types, as well as for one-dimensional arrays containing
+        the elements of BIT and BOOLEAN.<br> All these operators have the lowest
+        priority, except for the operator <b>not</b>
+        which has the highest priority. The results of the logical operators
+        for the predefined types are presented in the tables 2 through 8.<br> The
+        BIT type is represented by the values '0' and '1', while the Boolean
+        type by True and False.
+    </p>
+    <!--
+        NOT TRUTH TABLE
+    -->
+    <i>Table Operator <b>not</b></i>
+    <table>
+        <tbody>
+            <tr>
+                <td> <b>A</b></td>
+                <td><b>not(A)</b></td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+        </tbody>
+    </table>
+     <br>
+    <!--
+        AND OPERATOR TRUTH TABLE
+    -->
+    <i>Table Operator <b>and</b></i>
+    <table>
+        <tbody>
+            <tr>
+                <td> <b>A</b></td>
+                <td> <b>B</b></td>
+                <td><b>A and B</b></td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'0'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'1'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'0'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'1'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <!--
+        OR OPERATOR TRUTH TABLE
+    -->
+    <i>Table Operator <b>or</b></i>
+    <table>
+        <tbody>
+            <tr>
+                <td> <b>A</b></td>
+                <td> <b>B</b></td>
+                <td><b>A or B</b></td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'0'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'1'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'0'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'1'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <!--
+        XOR OPERATOR TRUTH TABLE
+    -->
+    <i>Table Operator <b>xor</b></i>
+    <table>
+        <tbody>
+            <tr>
+                <td> <b>A</b></td>
+                <td> <b>B</b></td>
+                <td><b>A xor B</b></td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'0'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'1'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'0'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'1'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <!--
+        NAND OPERATOR TRUTH TABLE
+    -->
+    <i>Table Operator <b>nand</b></i>
+    <table>
+        <tbody>
+            <tr>
+                <td> <b>A</b></td>
+                <td> <b>B</b></td>
+                <td><b>A nand B</b></td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'0'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'1'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'0'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'1'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <!--
+        NOR OPERATOR TRUTH TABLE
+    -->
+    <i>Table Operator <b>nor</b></i>
+    <table>
+        <tbody>
+            <tr>
+                <td> <b>A</b></td>
+                <td> <b>B</b></td>
+                <td><b>A nor B</b></td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'0'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'0'</td>
+                <td>'1'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'0'</td>
+                <td class="operator-type">'1'</td>
+            </tr>
+            <tr>
+                <td>'1'</td>
+                <td>'1'</td>
+                <td class="operator-type">'0'</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <!--
+        RELATIONAL OPERATORS
+    -->
+    <h3 id="relational" class="definition"> RELATIONAL OPERATORS </h3>
+    <p class="big-line-height">
+        The relational operators allow checking relation between operands,
+        i.e. to state whether they are equal, not equal or are ordered in a
+        way defined by operator (Table 2).<br> Both operands must be of the same
+        type, and the result received is always of the Boolean type.
+    </p>
+
+    <i>Table 1. Relational operations</i>
+    <table>
+        <tbody>
+            <tr>
+                <td>=</td>
+                <td class="operator-type">Equality</td>
+            </tr>
+            <tr>
+                <td>/=</td>
+                <td class="operator-type">Inequality</td>
+            </tr>
+            <tr>
+                <td>&lt;</td>
+                <td class="operator-type">less than</td>
+            </tr>
+            <tr>
+                <td>&lt;=</td>
+                <td class="operator-type">less than or equal</td>
+            </tr>
+            <tr>
+                <td>&gt;</td>
+                <td class="operator-type">greater than</td>
+            </tr>
+            <tr>
+                <td>&gt;=</td>
+                <td class="operator-type">greater than or equal</td>
+            </tr>
+        </tbody>
+    </table><br>
+    <p class="big-line-height">
+        The operators: equality and inequality are predefined for all types
+        available in the language except the file type. For other relations
+        the operands must be of a scalar type or one-dimensional array types.
+
+        <br>The equality operator returns the value TRUE only when both operands
+        have the same values, and FALSE when the values are different.<br> The
+        inequality operator returns the value TRUE when the operators are
+        different and FALSE when they are equal.<br> There are certain rules that
+        are used to compare operands depending on their type: in case of the
+        scalar type, the operand values are equal only when the values are
+        the same.<br> Two values of the composite type are equal only when each
+        value of the left operand corresponds to the value of the right
+        operand and vice versa.<br> In the record the corresponding elements have
+        identical identifiers, and in the array the corresponding elements
+        are those which appear at the same positions of arrays. In particular
+        two null arrays of the same type are always equal.<br>
+
+        The operators: &lt;, &lt;=, &gt;, and &gt;= return the TRUE logical
+        value only when the condition in the given relation is met, otherwise
+        the FALSE value is returned.
+    </p>
+    <!--
+        SHIFT OPERATORS
+    -->
+    <h3 id="shift" class="definition"> SHIFT OPERATORS </h3>
+    <p class="big-line-height">
+        The shift operators are defined for the one-dimensional array with
+        the elements of the type BIT or BOOLEAN. For the shift operator an
+        array is the left operand L and integer is the right operand R.<br> The
+        right operand represents the number of positions the left operand
+        should be shifted. As the result of shifting, the value of the same
+        type as the left operand is returned.<br> (Table 2) below shows predefined
+        shift operators.
+    </p>
+    <i>Table 2. Shift operators</i>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>sll</td>
+                <td class="operator-type">Shift left logical</td>
+            </tr>
+            <tr>
+                <td>srl</td>
+                <td class="operator-type">Shift right logical</td>
+            </tr>
+            <tr>
+                <td>sla</td>
+                <td class="operator-type">Shift left arithmetic</td>
+            </tr>
+            <tr>
+                <td>sra</td>
+                <td class="operator-type">Shift right arithmetic</td>
+            </tr>
+            <tr>
+                <td>rol</td>
+                <td class="operator-type">Rotate left logical</td>
+            </tr>
+            <tr>
+                <td>ror</td>
+                <td class="operator-type">Rotate right logical</td>
+            </tr>
+        </tbody>
+    </table><br>
+    <ul>
+        <!--
+            SLL(Shift left logical)
+        -->
+        <li><b>(sll)</b> The operator <b>sll</b> returns the
+            value of the L left operand, after it has been shifted R number of
+            times. If R is equal to 0 or L is the null array, the left operand L
+            is returned. The single left logical operation replaces L with
+            concatenation of the rightmost (L'Length -1) elements of L and a
+            single value T'Left, where T is the element type of L. If R &gt; the
+            single shift operation is repeated R number of times. If R is a
+            negative number, the value of the expression L <b>srl</b>
+            -R is returned.<br> </li>
+        <!--
+                SRL(Shift right logical)
+            -->
+        <li> <br><b>(srl)</b>The operator <b>srl</b> returns the
+            value of the left operand L after it has been shifted to right R
+            times. In case when R is equal to 0 or L is the null array, the left
+            operand L is returned. The single shifting operation replaces the
+            operand L with the concatenation of the leftmost L'Length -1 elements
+            of L and a single value T'Left, where T is the element type of L. If
+            R is a negative number then the value of expression L <b>sll</b>
+            -R is returned, otherwise the single shift operation is repeated R
+            number of times.<br></li>
+        <!--
+                SLA(Shift left arithmetic)
+            -->
+        <li><br><b>(sla)</b> The operator <b>sla</b> returns the
+            value of the left operand L after it has been shifted to the left R
+            number of times. In case when R is equal to 0 or L is the null array
+            the left operand L is returned. The single shift operation replaces L
+            with concatenation of the rightmost L'Length -1 elements of L and a
+            single value L'Right. If R is a negative number, the value of the
+            expression L <b>sra</b> -R is
+            returned, otherwise the single shift operation is repeated R number
+            of times.<br></li>
+        <!--
+                SRA(Shift right arithmetic)
+            -->
+        <li><br><b>(sra)</b>The operator <b>sra</b> returns the
+            value of the left operand L after it has been shifted to the right R
+            number of times. In case when R is equal to 0 or L is the null array,
+            the left operand L is returned. The single shift operation replaces L
+            with a value, which is the result of concatenation whose left
+            argument is the leftmost L'Length -1 elements of L and whose right
+            argument is L'Left. If R is a negative number, the value of the
+            expression L sla -R is returned, otherwise the single shift operation
+            is repeated R number of times.<br></li>
+        <!--
+            ROL(Rotate left logical)
+        -->
+        <li><br><b>(rol)</b> The operator <b>rol</b> returns the
+            value of the L left operand after it has been rotated to the left R
+            times. In case when R is equal to 0 or L is the null array the left
+            operand L is returned. The single shift operation replaces L with a
+            value which is the result of concatenation of the rightmost L'Length
+            -1 elements of L and a single value L'Left. If R &gt; 1 the sing.le
+            shift operation is repeated R times. If R &gt; 1 is a negative
+            number, the expression L <b>ror</b>
+            -R is returned.</li>
+        <!--
+            ROR(Rotate right logical)
+        -->
+        <li><br><b>(ror)</b>The operator <b>ror</b> returns the
+            value of the L left operand after it has been rotated to the right R
+            number of times. In case when R is equal to 0 or L is the null array,
+            the left operand L is returned. The single shift operation replaces L
+            with a value which is the result of concatenation whose left argument
+            is the leftmost L'Length -1 elements of L and whose right argument is
+            L'Right. If R &gt; 1 the single shift operation is repeated R times.
+            If R is a negative number, the expression L <b>rol</b>
+            -R is returned.
+        </li>
+    </ul>
+    <!--
+        ADDING OPERATORS
+    -->
+    <i>Table 3. Adding operators</i>
+    <table>
+        <tbody>
+            <tr>
+                <td> + </td>
+                <td class="operator-type">Addition</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td class="operator-type">Subtraction</td>
+            </tr>
+            <tr>
+                <td>&amp;</td>
+                <td class="operator-type">Concatenation</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="big-line-height">
+        The adding and subtraction operators perform mathematical operations,
+        and their operands can be of any numeric type.<br>
+
+        The concatenation (&amp;) operator is defined for elements of
+        one-dimensional arrays. In the concatenation, the following
+        situations can take place:
+    </p>
+    <ul>
+        <li>
+            When both operands are one-dimensional arrays of the same type, the
+            concatenation connects the two arrays into one. The new array
+            contains the elements from both arrays. The direction of the new
+            array is the same as the direction in the array of the left operand,
+            but if the left operand is the null array then it is the same as the
+            direction of the right operand. In case when both operands are null
+            arrays, the direction of the right operand is assumed.<br>
+
+
+            When one of the operands is a one-dimensional array and the second
+            operand is a scalar of the same type as the elements of that array,
+            then the result of the concatenation is the same as in the first
+            point.<br> However, in this case the second operand is treated as a
+            one-dimensional array which contains only one element.
+        </li>
+        <li>
+
+            In case when both operands are of the same scalar type, then the
+            result of concatenation is one-dimensional array with elements of the
+            same types as the operands.
+        </li>
+    </ul>
+    <!--
+        SIGN OPERATORS
+    -->
+    <h3 id="sign" class="definition">SIGN OPERATORS</h3>
+    <p class="big-line-height">
+        Sign operators are unary operators, i.e. have only one, right
+        operand, which must be of a numeric type. The result of the
+        expression evaluation is of the same type as the operand.<br> There are
+        two sign operators.
+    </p>
+
+    <i>Table 4. Sign operators</i>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>+</td>
+                <td class="operator-type">Identity</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td class="operator-type">Negation</td>
+            </tr>
+        </tbody>
+    </table><br>
+    <p class="big-line-height">
+        When ( + ) sign operator is used, the operand is returned unchanged,
+        but In case of ( - ) sign operator the value of operand with the
+        negated sign is returned. Because of the lower priority, <br>the sign
+        operator in the expression cannot be directly preceded by the
+        multiplication operator, the exponentiation operator (**) or the <b>abs</b>
+        and <b>not</b> operators. When
+        these operators are used then sign operator and its operand should be
+        enclosed in parentheses.
+    </p>
+    <!--
+        MULTIPLYING OPERATORS
+    -->
+    <h3 id="multiplying" class="definition">MULTIPLYING OPERATORS</h3>
+    <p class="big-line-height">
+        The multiplication and division operators are predefined for all
+        integers, floating point numbers. Under certain conditions, they may
+        be used for operations on physical type objects as well.<br> The <b>mod</b>
+        and <b>rem</b> operators, on the
+        other hand, are defined only for the integers. When <b>mod</b>
+        and <b>rem</b> operators are used,
+        then both the operands and the result are of the same integer type.<br>
+        The multiplying operators are shown in the table 5.
+    </p>
+    <i>Table 5. Multiplying operators</i>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>*</td>
+                <td class="operator-type">Multiplication</td>
+            </tr>
+            <tr>
+                <td>/</td>
+                <td class="operator-type">Division</td>
+            </tr>
+            <tr>
+                <td> mod</td>
+                <td class="operator-type">Modulus</td>
+            </tr>
+            <tr>
+                <td>rem</td>
+                <td class="operator-type">Remainder</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--
+        MISCELLANEOUS
+    -->
+    <h3 id="misc" class="definition">MISCELLANEOUS</h3>
+    <p class="big-line-height">
+        The two miscellaneous operators are shown in the Table 6.
+    </p>
+
+    <i>Table 6. Miscellaneous operators</i>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>**</td>
+                <td class="operator-type"> Exponentiation</td>
+            </tr>
+            <tr>
+                <td>abs</td>
+                <td class="operator-type">Absolute value</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="big-line-height">
+        The <b>abs</b> operator has only
+        one operand. It allows defining the operand's absolute value. The
+        result is of the same type as the operand.<br>
+
+        The exponentiation operator has two operands. This operator is
+        defined for any integer or floating point number. The right operand
+        (exponent) must be of integer type. <br>When the exponent is the positive
+        integer, then the left operand is repeatedly multiplied by itself.
+        When the exponent is the negative number, then the result is a
+        reverse of exponentiation with the exponent equal to the absolute
+        value of the right operand.<br> If the exponent is equal to 0
+        the result will be 1.
+    </p>
+
+    <h3 class="definition"> Notes</h3>
+    <ul>
+        <li>
+            All predefined operators for standard types are declared in the
+            package STANDARD.
+        </li>
+        <li>
+            The operator <b>not</b> is
+            classified as a miscellaneous operator only for the purpose of
+            defining precedence. Otherwise, it is classified as a logical operator.
+        </li>
+
+    </ul>
+    <h3 id="examples">Examples:</h3>
+    <ul>
+        <li> Example 1 :
+            <pre>
+                <code class="language-vhdl">
+                    variable a : integer := 5;
+                    variable b : integer := 2;
+                    variable y : integer := -3;
+                    variable result : integer ;
+                    result := a + y * b; -- ( 5 + ((-3) * 2)) = -1
+                </code>
+            </pre>
+        </li>
+        <li> Example 2:
+            <pre>
+                <code class="language-vhdl">
+                    signal a, b, c, d : std_logic ;
+                    s0 &lt;= a and b;
+                    s1 &lt;= c or d;
+                    s2 &lt;= not(a) xor b;
+                    s3 &lt;= a and b xnor c nor d;
+                </code>
+            </pre>
+        </li>
+        <li> Example 3:
+            <pre>
+                <code class="language-vhdl">
+                    variable data : BIT_VECTOR(3 downto 0) := ('1','0','1','1');
+                    data sll 1 -- ('0', '1', '1', '0')
+                    data sll 3 -- ('1', '0', '0', '0')
+                    data sll -3 -- data srl 3
+                    data srl 1 -- ('0', '1', '0', '1')
+                    data srl 3 -- ('0', '0', '0', '1')
+                    data srl -3 -- data sll 3
+                    data sla 1 -- ('0', '1', '1', '1')
+                    data sla 3 -- ('1', '1', '1', '1')
+                    data sla -3 -- data sra 3
+                    data sra 1 -- ('1', '1', '0', '1')
+                    data sra 3 -- ('1', '1', '1', '1')
+                    data sra -3 -- data sla 3
+                    data rol 1 -- ('0', '1', '1', '1')
+                    data rol 3 -- ('1', '1', '0', '1')
+                    data rol -3 -- data ror 3
+                    data ror 1 -- ('1', '1', '0', '1')
+                    data ror 3 -- ('0', '1', '1', '1')
+                    data ror -3 -- data rol 3
+                </code>
+            </pre>
+
+        </li>
+    </ul>
+    <!-- Activate Prism.js -->
+    <script>Prism.highlightAll();</script>
+</body>
+
+</html>

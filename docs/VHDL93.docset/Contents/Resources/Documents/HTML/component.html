@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VHDL93 - Component</title>
+    <meta name="description" content=" vhdl vhdl component declaration">
+    <meta name="keyword" content="vhdl VHDL, vhdl component declaration">
+    <!-- styles -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- Prism for syntax highlighting -->
+    <link href="../styles/prism.css" rel="stylesheet">
+    <script src="../scripts/prism.js"></script>
+</head>
+
+<body>
+    <h2 id="component" class="definition">Component Declaration</h2>
+    <h3 class="definition">Description:</h3>
+    <p class="big-line-height">
+        A <b>Component</b> represents an <b>entity/architecture pair</b>. <br>
+        It specifies a subsystem, which can be instantiated in another architecture leading to a hierarchical
+        specification.
+        <b>Component instantiation is analogous to a chip in a socket in a board</b>. <br>
+        A <b>Component</b> is instantiated within an
+        architecture, and is associated entity and architecture during elaboration. <br>
+        <b>A component must be declared before it is instantiated.</b>
+    </p>
+    <p class="big-line-height">
+        The binding of a design entity to a given component may be delayed and may be placed either in the
+        <b>configuration
+            specification or configuration declaration</b> . <br> <b> For default configuration, the component name must
+            match the name of
+            the corresponding entity to be used in its place, and the entity name must be visible </b> . <br> Also
+        generics and ports
+        must match in name, mode and type.
+    </p>
+    <p class="big-line-height">
+        The component can be defined in <b>a package, design entity, architecture, or block declaration</b>. If the
+        component
+        is declared in an <b>architecture</b>, it must be declared before the begin statement of the architecture. <br>
+        In such a
+        case, the component can be used (instantiated) in the architecture only. <br>
+
+        <b>If a component is declared in a package, then such a component is visible in any architecture, which uses
+            this
+            package.</b>
+    </p>
+
+    <h3 class="definition">Syntax:</h3>
+    <pre><code class="language-vhdl">
+        component component_name [ is ]
+            [ generic ( generic_list ); ]
+            [ port ( port_list ); ]
+        end component [ component_name ];
+        </code>
+    </pre>
+    <h3 class="definition">Example:</h3>
+    in this example let's assume that <b>my_component</b> is declared in another <b>entity / architecture
+        declaration</b>
+    <pre><code class="language-vhdl">
+        -- Entity declaration
+            entity my_top_entity is
+            port (
+                clk, reset : in std_logic;
+                data_in : in std_logic_vector(7 downto 0);
+                data_out : out std_logic_vector(7 downto 0)
+            );
+            end entity my_top_entity;
+
+            -- Architecture declaration
+            architecture my_arch of my_top_entity is
+            -- Component declaration(assuming my component is declared elsewhere)
+            component my_component is
+                port (
+                clk, reset : in std_logic;
+                data_in : in std_logic_vector(7 downto 0);
+                data_out : out std_logic_vector(7 downto 0)
+                );
+            end component;
+
+            -- Internal signals
+            signal internal_data : std_logic_vector(7 downto 0);
+            begin
+            -- Component instantiation
+            my_component_inst : my_component
+                port map (
+                clk =&gt; clk,
+                reset =&gt; reset,
+                data_in =&gt; data_in,
+                data_out =&gt; internal_data
+                );
+
+            -- Assign output
+            data_out &gt;= internal_data;
+            end architecture my_arch;
+
+        </code>
+    </pre>
+    <b>
+        The component declaration allows you to specify the interface of the component, and the component instantiation
+        allows you to create an instance of the component and connect it to the rest of the design.
+    </b>
+    <h3 class="definition">Notes: </h3>
+    <ul class="notes">
+        <li>A component declaration does not explicitly define which entity/architecture pair is bound to each instance.
+           <br> If no configuration specification or configuration declaration is defined a default binding is used.</li>
+    </ul>
+</body>
+
+</html>

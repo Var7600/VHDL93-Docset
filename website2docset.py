@@ -194,7 +194,9 @@ def add_meta(path_info: str, name: str, version: float = 0.0):
         "extra":{{
             "keywords": [
             "vhdl93",
-            "vhdl"
+            "vhdl",
+            "VHDL93",
+            "VHDL"
         ],
         "indexFilePath": "INDEX_FILE"
         }},
