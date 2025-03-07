@@ -2,6 +2,12 @@
 
 https://var7600.github.io/VHDL93-Docset/
 
+
+
+https://github.com/user-attachments/assets/4097d2e2-9abb-433d-81b7-eed21985d89c
+
+
+
 ## Overview
 
 The **VHDL93 Docset** provides offline access to VHDL-93 documentation for users of [Zeal](https://zealdocs.org/) and [Dash](https://kapeli.com/dash). This docset includes **syntax references, examples, and explanations of key VHDL concepts.**
