@@ -216,11 +216,12 @@ def add_meta(path_info: str, name: str, version: float = 0.0):
         sys.exit(2)
 
 
-def check_icon_size(path_icon: str) -> bool:
+def check_icon_size(path_icon: str, size:int) -> bool:
     """check if icon meets the size requirements 16x16 pixels.
 
         Args:
             path_icon(str): Path to the icon file.
+            size(int): the size that icon need to match
 
         Returns:
             bool: True if the size is 16x16 pixels,False otherwise.
@@ -232,10 +233,10 @@ def check_icon_size(path_icon: str) -> bool:
     try:
         with Image.open(path_icon) as img:
             width, height = img.size
-            if width <= 16 and height <= 16:
+            if width == size and height == size:
                 return True
 
-            logger.warning(f"{Fore.YELLOW}**Warning**: Image size must be 16x16 pixels.{Style.RESET_ALL}")
+            logger.warning(f"{Fore.YELLOW}**Warning**: Image size must be {size} pixels.{Style.RESET_ALL}")
             logger.warning(f"{Fore.YELLOW}but Current size is: {width}x{height}! No icon will be generated.{Style.RESET_ALL}")
             return False
     except Exception as e:
@@ -355,13 +356,13 @@ if __name__ == "__main__":
     # get the icon argument
     icon_filename = results.filename
     if icon_filename:
-        if icon_filename[-4:] == ".png" and os.path.isfile(icon_filename) and check_icon_size(icon_filename):
+        if icon_filename[-4:] == ".png" and os.path.isfile(icon_filename) and check_icon_size(icon_filename,16):
             try:
                 # copy icon image
                 shutil.copy(icon_filename, icon_path)
                 # check if icon@2x.png exists and copy it.
-                if os.path.exists('icon@2x.png'):
-                    # copy icon image
+                if os.path.exists('icon@2x.png') and check_icon_size("icon@2x.png",32):
+                    # copy icon 2x image
                     shutil.copy('icon@2x.png', os.path.dirname(icon_path))
 
                 print(f"{Fore.GREEN}Create the Icon for the Docset!{Style.RESET_ALL}")
