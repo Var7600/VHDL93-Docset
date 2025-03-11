@@ -162,6 +162,7 @@ def add_infoplist(path_info: str, doc_name: str):
         <string>{name.capitalize()}</string>
         <key>DocSetPlatformFamily</key>
         <string>{name}</string>
+        <key>isDashDocset</key><true/>
         <key>dashIndexFilePath</key>
         <string>index.html</string>
         <key>DashDocSetBlocksOnlineResources</key><true/>
@@ -256,6 +257,9 @@ def copy_docs(dir_source: str, docset_dir: str) -> None:
         os.makedirs(docset_dir)
         print(f"{Fore.GREEN}Create the Docset Folder!{Style.RESET_ALL}")
         for subdir in tqdm(os.listdir(dir_source)):
+             # skip vscode folder
+            if '.vscode' in subdir:
+                continue
             try:
                 shutil.copytree(os.path.join(dir_source, subdir), os.path.join(docset_dir, subdir))
             except NotADirectoryError as not_dir:
@@ -307,7 +311,7 @@ if __name__ == "__main__":
     doc_path = os.path.join(docset_name, "Contents", "Resources", "Documents")
     dsidx_path = os.path.join(docset_name, "Contents", "Resources", "docSet.dsidx")
     icon = os.path.join(docset_name, "icon.png")
-    info = os.path.join(docset_name, "Contents", "info.plist")
+    info = os.path.join(docset_name, "Contents", "Info.plist")
     metadata = os.path.join(docset_name, "meta.json")
 
     # destination directory
